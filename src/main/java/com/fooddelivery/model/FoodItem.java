@@ -59,8 +59,13 @@ public class FoodItem {
         this.available = available;
     }
 
+    public String getDisplayType() {
+        return "General Food";
+    }
+
     @Override
     public String toString() {
         return foodId + "," + name + "," + category + "," + price + "," + available;
     }
 }
+

@@ -153,7 +153,7 @@ public class FoodServlet extends HttpServlet {
 
                 request.setAttribute(
                         "error",
-                        "Failed to add food item."
+                        "Food ID already exists. Please use a different Food ID."
                 );
 
                 request.getRequestDispatcher(

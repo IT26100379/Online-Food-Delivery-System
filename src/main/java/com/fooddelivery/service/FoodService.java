@@ -38,7 +38,13 @@ public class FoodService {
     // =========================
     // CREATE
     // =========================
+    // CREATE
     public boolean addFood(FoodItem food) {
+
+        // Duplicate Food ID check
+        if (getFoodById(food.getFoodId()) != null) {
+            return false;
+        }
 
         try (BufferedWriter writer =
                      new BufferedWriter(new FileWriter(filePath, true))) {
