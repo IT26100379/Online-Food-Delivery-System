@@ -112,6 +112,7 @@
                     <th>Food ID</th>
                     <th>Name</th>
                     <th>Category</th>
+                    <th>Type</th>
                     <th>Price (Rs.)</th>
                     <th>Availability</th>
                     <th>Actions</th>
@@ -139,6 +140,10 @@
 
                     <td>
                         <%= food.getCategory() %>
+                    </td>
+
+                    <td>
+                        <%= food.getDisplayType() %>
                     </td>
 
                     <td>
@@ -171,22 +176,15 @@
 
                     <td>
 
-                        <!-- Edit -->
                         <a href="<%= request.getContextPath() %>/food?action=edit&id=<%= food.getFoodId() %>"
                            class="btn btn-warning btn-sm">
-
                             Edit
-
                         </a>
 
-
-                        <!-- Delete -->
                         <a href="<%= request.getContextPath() %>/food?action=delete&id=<%= food.getFoodId() %>"
                            class="btn btn-danger btn-sm"
                            onclick="return confirm('Are you sure you want to delete this food item?');">
-
                             Delete
-
                         </a>
 
                     </td>
@@ -201,7 +199,7 @@
 
                 <tr>
 
-                    <td colspan="6"
+                    <td colspan="7"
                         class="text-center text-muted">
 
                         No food items found.

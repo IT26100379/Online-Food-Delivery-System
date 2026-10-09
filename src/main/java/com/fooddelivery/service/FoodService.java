@@ -1,6 +1,9 @@
 package com.fooddelivery.service;
 
 import com.fooddelivery.model.FoodItem;
+import com.fooddelivery.model.MainMeal;
+import com.fooddelivery.model.Beverage;
+import com.fooddelivery.model.Dessert;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -88,14 +91,50 @@ public class FoodService {
                     double price = Double.parseDouble(data[3]);
                     boolean available = Boolean.parseBoolean(data[4]);
 
-                    FoodItem food = new FoodItem(
-                            foodId,
-                            name,
-                            category,
-                            price,
-                            available
-                    );
+                    FoodItem food;
 
+                    if (category.equalsIgnoreCase("Beverage")) {
+
+                        food = new Beverage(
+                                foodId,
+                                name,
+                                category,
+                                price,
+                                available
+                        );
+
+                    } else if (category.equalsIgnoreCase("Dessert")) {
+
+                        food = new Dessert(
+                                foodId,
+                                name,
+                                category,
+                                price,
+                                available
+                        );
+
+                    } else if (category.equalsIgnoreCase("Burger")
+                            || category.equalsIgnoreCase("Pizza")
+                            || category.equalsIgnoreCase("Rice")) {
+
+                        food = new MainMeal(
+                                foodId,
+                                name,
+                                category,
+                                price,
+                                available
+                        );
+
+                    } else {
+
+                        food = new FoodItem(
+                                foodId,
+                                name,
+                                category,
+                                price,
+                                available
+                        );
+                    }
                     foods.add(food);
                 }
             }
