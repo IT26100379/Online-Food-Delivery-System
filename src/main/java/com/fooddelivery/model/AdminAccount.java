@@ -1,13 +1,13 @@
 package com.fooddelivery.model;
 
-public class Admin extends Person {
+public class AdminAccount extends Person {
     private String adminId;       // A001 wage ID eka
     private String username;
     private String passwordHash;
     private String adminLevel;    // SUPER_ADMIN or MODERATOR
 
-    public Admin(String adminId, String name, String email, String phone,
-                 String username, String passwordHash, String adminLevel) {
+    public AdminAccount(String adminId, String name, String email, String phone,
+                        String username, String passwordHash, String adminLevel) {
         super(name, email, phone);
         this.adminId = adminId;
         this.username = username;
@@ -38,8 +38,8 @@ public class Admin extends Person {
     }
 
     // File eken line ekak kiyawala Admin object ekak hadanna
-    public static Admin fromFileString(String line) {
+    public static AdminAccount fromFileString(String line) {
         String[] p = line.split("\\|");
-        return new Admin(p[0], p[1], p[2], p[3], p[4], p[5], p[6]);
+        return new AdminAccount(p[0], p[1], p[2], p[3], p[4], p[5], p[6]);
     }
 }
