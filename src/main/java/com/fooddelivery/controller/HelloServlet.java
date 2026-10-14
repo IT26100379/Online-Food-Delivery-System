@@ -1,4 +1,4 @@
-package com.fooddelivery.onlinefooddelivery;
+package com.fooddelivery.controller;
 
 import java.io.*;
 
