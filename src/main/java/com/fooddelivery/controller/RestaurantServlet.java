@@ -1,10 +1,6 @@
 package com.fooddelivery.controller;
 
-import com.fooddelivery.model.FastFoodRestaurant;
-import com.fooddelivery.model.Restaurant;
-import com.fooddelivery.model.TraditionalRestaurant;
-import com.fooddelivery.model.Role;
-import com.fooddelivery.model.User;
+import com.fooddelivery.model.*;
 import com.fooddelivery.service.RestaurantService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
