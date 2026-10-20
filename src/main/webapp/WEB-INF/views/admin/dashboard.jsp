@@ -14,11 +14,10 @@
         <p>${totalUsers}</p>
     </div>
 
-    <p>
-        <a href="${pageContext.request.contextPath}/admin/users">Manage Users</a> |
-        <a href="${pageContext.request.contextPath}/logout">Logout</a>
-        <a href="${pageContext.request.contextPath}/admin/restaurants">Manage Restaurants</a>
-
-    </p>
+    <<p>
+         <a href="${pageContext.request.contextPath}/admin/users">Manage Users</a> |
+         <a href="${pageContext.request.contextPath}/admin/restaurants">Manage Restaurants</a> |
+         <a href="${pageContext.request.contextPath}/logout">Logout</a>
+     </p>
 </body>
 </html>
