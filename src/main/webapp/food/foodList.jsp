@@ -46,6 +46,9 @@
 
             <h2 class="page-title">
                 Food Management
+                <% if (request.getAttribute("selectedRestaurant") != null) { %>
+                    — <%= ((com.fooddelivery.model.Restaurant) request.getAttribute("selectedRestaurant")).getName() %>
+                <% } %>
             </h2>
 
             <a href="<%= request.getContextPath() %>/food?action=add"
@@ -55,6 +58,9 @@
 
         </div>
 
+        <% if (request.getAttribute("selectedRestaurantId") != null) { %>
+            <a class="btn btn-outline-secondary mb-3" href="<%= request.getContextPath() %>/restaurants">← Back to Restaurants</a>
+        <% } %>
         <!-- Search Form -->
         <form action="<%= request.getContextPath() %>/food"
               method="get"
