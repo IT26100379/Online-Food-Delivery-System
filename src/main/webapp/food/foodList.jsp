@@ -13,6 +13,7 @@
 %>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp"><jsp:param name="title" value="Food menu"/></jsp:include>
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/food-photos.css">
 
 
 <div class="container main-container wide" id="main-content">
@@ -89,151 +90,44 @@
                     (List<FoodItem>) request.getAttribute("foods");
         %>
 
-        <div class="table-responsive">
-
-            <table class="table table-bordered table-hover align-middle">
-
-                <thead>
-
-                <tr>
-                    <th>Food ID</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Type</th>
-                    <th>Price (Rs.)</th>
-                    <th>Availability</th>
-
+        <div class="yc-food-grid">
+        <%
+            if (foods != null && !foods.isEmpty()) {
+                for (FoodItem food : foods) {
+        %>
+            <article class="yc-food-card">
+                <div class="yc-food-photo-wrap">
+                    <jsp:include page="/WEB-INF/views/common/food-photo.jsp">
+                        <jsp:param name="foodName" value="<%= food.getName() %>" />
+                        <jsp:param name="foodCategory" value="<%= food.getCategory() %>" />
+                    </jsp:include>
+                </div>
+                <div class="yc-food-card-body">
+                    <span class="yc-food-category"><%= food.getCategory().replace("&", "&amp;").replace("<", "&lt;") %></span>
+                    <h3><%= food.getName().replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;") %></h3>
+                    <p class="yc-food-meta"><%= food.getDisplayType() %> · ID: <%= food.getFoodId() %></p>
+                    <div class="yc-food-card-bottom">
+                        <strong class="yc-food-price">Rs. <%= String.format("%.2f", food.getPrice()) %></strong>
+                        <% if (food.isAvailable()) { %><span class="badge bg-success">Available</span>
+                        <% } else { %><span class="badge bg-danger">Unavailable</span><% } %>
+                    </div>
                     <% if (isAdmin) { %>
-                         <th>Actions</th>
-                     <% } else { %>
-                         <th>Order</th>
-                     <% } %>
-
-                </tr>
-
-                </thead>
-
-                <tbody>
-
-                <%
-                    if (foods != null && !foods.isEmpty()) {
-
-                        for (FoodItem food : foods) {
-                %>
-
-                <tr>
-
-                    <td>
-                        <%= food.getFoodId() %>
-                    </td>
-
-                    <td>
-                        <%= food.getName() %>
-                    </td>
-
-                    <td>
-                        <%= food.getCategory() %>
-                    </td>
-
-                    <td>
-                        <%= food.getDisplayType() %>
-                    </td>
-
-                    <td>
-                        <%= String.format("%.2f", food.getPrice()) %>
-                    </td>
-
-                    <td>
-
-                        <%
-                            if (food.isAvailable()) {
-                        %>
-
-                        <span class="badge bg-success">
-                            Available
-                        </span>
-
-                        <%
-                        } else {
-                        %>
-
-                        <span class="badge bg-danger">
-                            Not Available
-                        </span>
-
-                        <%
-                            }
-                        %>
-
-                    </td>
-
-                    <% if (isAdmin) { %>
-
-                    <td>
-                        <div class="d-flex gap-2">
-
-                            <!-- Edit Button -->
-                            <a href="<%= request.getContextPath() %>/food?action=edit&id=<%= food.getFoodId() %>"
-                               class="btn btn-warning btn-sm">
-                                Edit
-                            </a>
-
-                            <!-- Delete Button -->
-                            <form action="<%= request.getContextPath() %>/food"
-                                  method="post"
-                                  onsubmit="return confirm('Are you sure you want to delete this food item?');">
-
-                                <input type="hidden" name="action" value="delete">
-
-                                <input type="hidden"
-                                       name="id"
-                                       value="<%= food.getFoodId() %>">
-
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    Delete
-                                </button>
-
-                            </form>
-
-                        </div>
-                    </td>
-
-                    <% } else { %>
-                    <td>
-                        <% if (food.isAvailable()) { %>
-                        <a class="btn btn-primary btn-sm" href="<%= request.getContextPath() %>/orders?action=place&amp;foodId=<%= java.net.URLEncoder.encode(food.getFoodId(), java.nio.charset.StandardCharsets.UTF_8) %>">Order now</a>
-                        <% } else { %><span class="text-muted">Unavailable</span><% } %>
-                    </td>
-                    <% } %>
-                </tr>
-
-
-
-                <%
-                    }
-
-                } else {
-                %>
-
-                <tr>
-
-                    <td colspan="<%= 7 %>"
-                        class="text-center text-muted">
-
-                        No food items found.
-
-                    </td>
-
-                </tr>
-
-                <%
-                    }
-                %>
-
-                </tbody>
-
-            </table>
-
+                    <div class="yc-food-card-actions">
+                        <a href="<%= request.getContextPath() %>/food?action=edit&amp;id=<%= java.net.URLEncoder.encode(food.getFoodId(), java.nio.charset.StandardCharsets.UTF_8) %>" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="<%= request.getContextPath() %>/food" method="post" onsubmit="return confirm('Delete this food item?');">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="id" value="<%= food.getFoodId() %>">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
+                    <% } else if (food.isAvailable()) { %>
+                        <a class="btn btn-primary yc-order-now" href="<%= request.getContextPath() %>/orders?action=place&amp;foodId=<%= java.net.URLEncoder.encode(food.getFoodId(), java.nio.charset.StandardCharsets.UTF_8) %>">Order now →</a>
+                    <% } else { %><button class="btn yc-order-now" disabled>Currently unavailable</button><% } %>
+                </div>
+            </article>
+        <% } } else { %>
+            <div class="yc-food-empty">No food items found.</div>
+        <% } %>
         </div>
 
     </div>

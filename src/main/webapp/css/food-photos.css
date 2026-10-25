@@ -1,0 +1,18 @@
+/* YummyCart food photo gallery and checkout */
+.yc-food-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:24px}
+.yc-food-card{border:1px solid var(--border);border-radius:20px;overflow:hidden;background:var(--surface);box-shadow:var(--softshadow);display:flex;flex-direction:column}
+.yc-food-photo-wrap{height:206px;background:var(--surface-soft);overflow:hidden}
+.yc-food-photo{display:block;width:100%;height:100%;object-fit:cover;transition:transform .25s}
+.yc-food-card:hover .yc-food-photo{transform:scale(1.04)}
+.yc-food-card-body{padding:19px;display:flex;flex-direction:column;flex:1;gap:10px}
+.yc-food-card h3{font-size:20px;margin:0;color:var(--text)}
+.yc-food-category{font-size:11px;letter-spacing:.08em;font-weight:800;text-transform:uppercase;color:var(--primary)}
+.yc-food-meta{margin:0;color:var(--muted);font-size:12px}
+.yc-food-card-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:auto}
+.yc-food-price{font-size:20px;color:var(--text)}
+.yc-food-card-actions{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap}.yc-food-card-actions form{margin:0}
+.yc-order-now{display:block;text-align:center;margin-top:11px;width:100%}
+.yc-food-empty{grid-column:1/-1;padding:45px;color:var(--muted);text-align:center}
+.yc-checkout-photo{height:245px;margin:-2px 0 22px;overflow:hidden;border-radius:15px;background:var(--surface-soft)}
+@media(max-width:900px){.yc-food-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:590px){.yc-food-grid{grid-template-columns:1fr}.yc-food-photo-wrap{height:230px}.yc-checkout-photo{height:200px}}
