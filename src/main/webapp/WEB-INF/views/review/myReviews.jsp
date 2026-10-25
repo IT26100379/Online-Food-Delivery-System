@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"><jsp:param name="title" value="My Reviews"/></jsp:include>
 <jsp:include page="/WEB-INF/views/review/reviewStyles.jsp"/>
-<div class="container wide">
+<main id="main-content" class="container wide">
     <jsp:include page="/WEB-INF/views/common/messages.jsp"/>
 
     <div class="card">
@@ -50,5 +50,6 @@
             </c:otherwise>
         </c:choose>
     </div>
-</div>
+</main>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body></html>

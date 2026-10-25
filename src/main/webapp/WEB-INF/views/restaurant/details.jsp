@@ -4,7 +4,7 @@
     <jsp:param name="title" value="Restaurant details" />
 </jsp:include>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/restaurant.css">
-<main class="restaurant-page">
+<main class="restaurant-page" id="main-content">
     <div class="restaurant-shell restaurant-content">
         <a class="restaurant-back" href="${pageContext.request.contextPath}/restaurants">&larr; All restaurants</a>
         <article class="restaurant-panel restaurant-detail-panel">
@@ -27,4 +27,5 @@
         </article>
     </div>
 </main>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body></html>
