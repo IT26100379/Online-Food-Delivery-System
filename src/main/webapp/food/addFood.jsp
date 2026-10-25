@@ -1,42 +1,10 @@
 <%@ page import="java.util.List,com.fooddelivery.model.Restaurant" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Food</title>
+<jsp:include page="/WEB-INF/views/common/header.jsp"><jsp:param name="title" value="Add food"/></jsp:include>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
-    <style>
-        body {
-            background-color: #f5f5f5;
-        }
-
-        .form-container {
-            max-width: 650px;
-            margin: 60px auto;
-            background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .page-title {
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="container">
+<div class="container" id="main-content">
 
     <div class="form-container">
 
@@ -196,7 +164,7 @@
                 </button>
 
                 <a href="<%= request.getContextPath() %>/food"
-                   class="btn btn-secondary">
+                   class="btn btn-light">
                     View Food List
                 </a>
 
@@ -208,5 +176,6 @@
 
 </div>
 
-</body>
-</html>
+
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+</body></html>

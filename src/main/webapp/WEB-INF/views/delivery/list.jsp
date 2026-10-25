@@ -4,20 +4,9 @@
 <c:set var="base" value="${pageContext.request.contextPath}/delivery" />
 <c:set var="isAdmin" value="${sessionScope.loggedUser.role == 'ADMIN'}" />
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Deliveries</title>
-
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css/delivery.css">
-</head>
-
-<body>
+<jsp:include page="/WEB-INF/views/common/header.jsp"><jsp:param name="title" value="Deliveries"/></jsp:include>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/delivery.css">
+<div class="delivery-page" id="main-content">
 
 <header class="bar">
     <h1>Deliveries</h1>
@@ -264,5 +253,7 @@
 
 </main>
 
-</body>
-</html>
+
+</div>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+</body></html>

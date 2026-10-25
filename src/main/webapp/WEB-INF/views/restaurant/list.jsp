@@ -4,7 +4,7 @@
     <jsp:param name="title" value="Restaurants" />
 </jsp:include>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/restaurant.css">
-<main class="restaurant-page">
+<main class="restaurant-page" id="main-content">
     <section class="restaurant-hero">
         <div class="restaurant-shell">
             <span class="restaurant-eyebrow">EXPLORE LOCAL FLAVOURS</span>
@@ -56,4 +56,5 @@
         </c:choose>
     </div>
 </main>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body></html>

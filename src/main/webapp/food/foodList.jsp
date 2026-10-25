@@ -12,50 +12,17 @@
             && ((User) currentUser).getRole() == Role.ADMIN;
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Food Management</title>
+<jsp:include page="/WEB-INF/views/common/header.jsp"><jsp:param name="title" value="Food menu"/></jsp:include>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
-    <style>
-        body {
-            background-color: #f5f5f5;
-        }
-
-        .main-container {
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-
-        .table-container {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .page-title {
-            font-weight: bold;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="container main-container">
+<div class="container main-container wide" id="main-content">
 
     <div class="table-container">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
 
             <h2 class="page-title">
-                Food Management
+                Food menu
                 <% if (request.getAttribute("selectedRestaurant") != null) { %>
                     — <%= ((com.fooddelivery.model.Restaurant) request.getAttribute("selectedRestaurant")).getName() %>
                 <% } %>
@@ -99,7 +66,7 @@
             <div class="col-md-2">
 
                 <button type="submit"
-                        class="btn btn-success w-100">
+                        class="btn btn-primary w-100">
                     Search
                 </button>
 
@@ -126,7 +93,7 @@
 
             <table class="table table-bordered table-hover align-middle">
 
-                <thead class="table-dark">
+                <thead>
 
                 <tr>
                     <th>Food ID</th>
@@ -265,5 +232,6 @@
 
 </div>
 
-</body>
-</html>
+
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+</body></html>

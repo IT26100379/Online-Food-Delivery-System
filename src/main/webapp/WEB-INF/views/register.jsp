@@ -1,9 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <jsp:include page="common/header.jsp"><jsp:param name="title" value="Register"/></jsp:include>
-<div class="container">
+<main id="main-content" class="container auth-container">
     <div class="card">
-        <h2>Create Account</h2>
+        <span class="eyebrow">GET STARTED</span>
+        <h2 class="auth-heading">Create your account</h2>
+        <p class="auth-subtitle">Join YummyCart and discover something delicious.</p>
         <jsp:include page="common/messages.jsp"/>
         <form method="post" action="${pageContext.request.contextPath}/register">
             <label for="fullName">Full Name</label>
@@ -22,5 +24,6 @@
         </form>
         <p>Already registered? <a href="${pageContext.request.contextPath}/login">Login</a></p>
     </div>
-</div>
+</main>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body></html>
