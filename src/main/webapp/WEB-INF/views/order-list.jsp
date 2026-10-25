@@ -2,10 +2,11 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"><jsp:param name="title" value="Orders"/></jsp:include>
 <main class="page" id="main-content">
-  <div class="page-top"><div><span class="eyebrow">ORDER CENTER</span><h1 class="page-heading">Order management</h1><p>A simple overview of every order and its current status.</p></div>
+  <div class="page-top"><div><span class="eyebrow">ORDER CENTER</span><h1 class="page-heading">${sessionScope.loggedUser.role == 'ADMIN' ? 'Order management' : 'My orders'}</h1><p>${sessionScope.loggedUser.role == 'ADMIN' ? 'All orders and their current status.' : 'Track your food orders here.'}</p></div>
     <c:if test="${sessionScope.loggedUser.role == 'ADMIN'}"><a class="btn" href="${pageContext.request.contextPath}/orders?action=new">+ New order</a></c:if>
   </div>
-  <section class="panel"><div class="section-heading"><div><h3>All orders</h3><p class="muted">Your current order list</p></div><span class="pill">▤ &nbsp; Orders</span></div>
+  <c:if test="${param.placed == '1'}"><div class="card"><strong>Order placed successfully!</strong> Your order appears below.</div></c:if>
+  <section class="panel"><div class="section-heading"><div><h3>${sessionScope.loggedUser.role == 'ADMIN' ? 'All orders' : 'My orders'}</h3><p class="muted">Your current order list</p></div><span class="pill">▤ &nbsp; Orders</span></div>
     <div class="table-wrap"><table>
       <thead><tr><th>Order ID</th><th>User ID</th><th>Food ID</th><th>Qty</th><th>Total (Rs.)</th><th>Status</th><th>Date</th><c:if test="${sessionScope.loggedUser.role == 'ADMIN'}"><th>Actions</th></c:if></tr></thead>
       <tbody>

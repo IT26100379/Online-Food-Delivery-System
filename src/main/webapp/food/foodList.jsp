@@ -105,6 +105,8 @@
 
                     <% if (isAdmin) { %>
                          <th>Actions</th>
+                     <% } else { %>
+                         <th>Order</th>
                      <% } %>
 
                 </tr>
@@ -196,6 +198,12 @@
                         </div>
                     </td>
 
+                    <% } else { %>
+                    <td>
+                        <% if (food.isAvailable()) { %>
+                        <a class="btn btn-primary btn-sm" href="<%= request.getContextPath() %>/orders?action=place&amp;foodId=<%= java.net.URLEncoder.encode(food.getFoodId(), java.nio.charset.StandardCharsets.UTF_8) %>">Order now</a>
+                        <% } else { %><span class="text-muted">Unavailable</span><% } %>
+                    </td>
                     <% } %>
                 </tr>
 
@@ -209,7 +217,7 @@
 
                 <tr>
 
-                    <td colspan="<%= isAdmin ? 7 : 6 %>"
+                    <td colspan="<%= 7 %>"
                         class="text-center text-muted">
 
                         No food items found.
