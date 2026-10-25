@@ -6,6 +6,10 @@ import com.fooddelivery.service.RestaurantService;
 import com.fooddelivery.model.Restaurant;
 import java.nio.file.Path;
 
+import com.fooddelivery.model.User;
+import com.fooddelivery.model.Role;
+import jakarta.servlet.http.HttpSession;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -35,6 +39,35 @@ public class FoodServlet extends HttpServlet {
         restaurantService = new RestaurantService(dataDir);
     }
 
+    private boolean requireAdmin(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
+
+        HttpSession session = request.getSession(false);
+
+        User user = session == null
+                ? null
+                : (User) session.getAttribute("loggedUser");
+
+        if (user == null) {
+            response.sendRedirect(
+                    request.getContextPath() + "/login"
+            );
+            return false;
+        }
+
+        if (user.getRole() != Role.ADMIN) {
+            response.sendError(
+                    HttpServletResponse.SC_FORBIDDEN,
+                    "Access Denied! Admins Only."
+            );
+            return false;
+        }
+
+        return true;
+    }
+
     // =========================
     // GET REQUESTS
     // =========================
@@ -50,6 +83,13 @@ public class FoodServlet extends HttpServlet {
             action = "list";
         }
 
+        if ("add".equals(action) || "edit".equals(action)) {
+            if (!requireAdmin(request, response)) {
+                return;
+            }
+        }
+
+
         switch (action) {
 
             case "add":
@@ -61,7 +101,10 @@ public class FoodServlet extends HttpServlet {
                 break;
 
             case "delete":
-                deleteFood(request, response);
+                response.sendError(
+                        HttpServletResponse.SC_METHOD_NOT_ALLOWED,
+                        "Delete must use POST."
+                );
                 break;
 
             case "search":
@@ -89,6 +132,10 @@ public class FoodServlet extends HttpServlet {
             action = "";
         }
 
+        if (!requireAdmin(request, response)) {
+            return;
+        }
+
         switch (action) {
 
             case "add":
@@ -97,6 +144,10 @@ public class FoodServlet extends HttpServlet {
 
             case "update":
                 updateFood(request, response);
+                break;
+
+            case "delete":
+                deleteFood(request, response);
                 break;
 
             default:
