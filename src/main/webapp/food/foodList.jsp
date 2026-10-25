@@ -98,6 +98,7 @@
             <article class="yc-food-card">
                 <div class="yc-food-photo-wrap">
                     <jsp:include page="/WEB-INF/views/common/food-photo.jsp">
+                        <jsp:param name="foodId" value="<%= food.getFoodId() %>" />
                         <jsp:param name="foodName" value="<%= food.getName() %>" />
                         <jsp:param name="foodCategory" value="<%= food.getCategory() %>" />
                     </jsp:include>

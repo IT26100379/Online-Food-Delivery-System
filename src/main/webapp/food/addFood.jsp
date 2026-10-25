@@ -26,7 +26,7 @@
         %>
 
         <form action="<%= request.getContextPath() %>/food?action=add"
-              method="post">
+              method="post" enctype="multipart/form-data">
 
             <!-- Food ID -->
             <div class="mb-3">
@@ -130,6 +130,14 @@
                        placeholder="Example: 850"
                        required>
 
+            </div>
+
+            <!-- Uploaded photo is optional. Stored outside the deployed WAR. -->
+            <div class="mb-3">
+                <label class="form-label" for="foodPhoto">Food Photo (optional)</label>
+                <input type="file" id="foodPhoto" name="foodPhoto" class="form-control"
+                       accept="image/jpeg,image/png">
+                <small class="text-muted">JPG or PNG, max 5 MB. Images appear on the menu and checkout.</small>
             </div>
 
             <!-- Availability -->

@@ -8,6 +8,7 @@
   <div class="card">
     <div class="yc-checkout-photo">
       <jsp:include page="/WEB-INF/views/common/food-photo.jsp">
+        <jsp:param name="foodId" value="${food.foodId}" />
         <jsp:param name="foodName" value="${food.name}" />
         <jsp:param name="foodCategory" value="${food.category}" />
       </jsp:include>

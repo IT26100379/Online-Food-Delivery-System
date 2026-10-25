@@ -13,4 +13,7 @@
   <c:when test="${fn:contains(categoryLower,'dessert') or fn:contains(nameLower,'cake') or fn:contains(nameLower,'ice cream')}"><c:set var="photoId" value="photo-1488477181946-6428a0291777"/></c:when>
   <c:otherwise><c:set var="photoId" value="photo-1546069901-ba9599a7e63c"/></c:otherwise>
 </c:choose>
-<img class="yc-food-photo" loading="lazy" decoding="async" alt="${fn:escapeXml(param.foodName)}" src="https://images.unsplash.com/${photoId}?auto=format&amp;fit=crop&amp;w=900&amp;q=80" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/assets/food-photo-fallback.svg';"/>
+<c:url var="uploadedPhoto" value="/food-photo"><c:param name="id" value="${param.foodId}"/></c:url>
+<img class="yc-food-photo" loading="lazy" decoding="async" alt="${fn:escapeXml(param.foodName)}"
+ src="${uploadedPhoto}"
+ onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='https://images.unsplash.com/${photoId}?auto=format&amp;fit=crop&amp;w=900&amp;q=80';}else{this.onerror=null;this.src='${pageContext.request.contextPath}/assets/food-photo-fallback.svg';}"/>
