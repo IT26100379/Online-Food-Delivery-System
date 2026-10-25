@@ -1,3 +1,4 @@
+<%@ page import="java.util.List,com.fooddelivery.model.Restaurant" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -130,6 +131,20 @@
 
                 </select>
 
+            </div>
+
+            <!-- Restaurant association -->
+            <div class="mb-3">
+                <label class="form-label">Restaurant</label>
+                <select name="restaurantId" class="form-select" required>
+                    <option value="">Select Restaurant</option>
+                    <%
+                        List<Restaurant> restaurants = (List<Restaurant>) request.getAttribute("restaurants");
+                        if (restaurants != null) for (Restaurant restaurant : restaurants) {
+                    %>
+                    <option value="<%= restaurant.getRestaurantId() %>" ><%= restaurant.getName() %></option>
+                    <% } %>
+                </select>
             </div>
 
             <!-- Price -->

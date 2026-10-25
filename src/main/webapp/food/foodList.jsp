@@ -2,6 +2,16 @@
 <%@ page import="com.fooddelivery.model.FoodItem" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%@ page import="com.fooddelivery.model.User" %>
+<%@ page import="com.fooddelivery.model.Role" %>
+
+<%
+    Object currentUser = session.getAttribute("loggedUser");
+
+    boolean isAdmin = currentUser instanceof User
+            && ((User) currentUser).getRole() == Role.ADMIN;
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,15 +56,25 @@
 
             <h2 class="page-title">
                 Food Management
+                <% if (request.getAttribute("selectedRestaurant") != null) { %>
+                    — <%= ((com.fooddelivery.model.Restaurant) request.getAttribute("selectedRestaurant")).getName() %>
+                <% } %>
             </h2>
 
-            <a href="<%= request.getContextPath() %>/food?action=add"
-               class="btn btn-primary">
-                + Add Food
-            </a>
+            <% if (isAdmin) { %>
+
+                <a href="<%= request.getContextPath() %>/food?action=add"
+                   class="btn btn-primary">
+                    + Add Food
+                </a>
+
+            <% } %>
 
         </div>
 
+        <% if (request.getAttribute("selectedRestaurantId") != null) { %>
+            <a class="btn btn-outline-secondary mb-3" href="<%= request.getContextPath() %>/restaurants">← Back to Restaurants</a>
+        <% } %>
         <!-- Search Form -->
         <form action="<%= request.getContextPath() %>/food"
               method="get"
@@ -115,7 +135,11 @@
                     <th>Type</th>
                     <th>Price (Rs.)</th>
                     <th>Availability</th>
-                    <th>Actions</th>
+
+                    <% if (isAdmin) { %>
+                         <th>Actions</th>
+                     <% } %>
+
                 </tr>
 
                 </thead>
@@ -174,22 +198,41 @@
 
                     </td>
 
+                    <% if (isAdmin) { %>
+
                     <td>
+                        <div class="d-flex gap-2">
 
-                        <a href="<%= request.getContextPath() %>/food?action=edit&id=<%= food.getFoodId() %>"
-                           class="btn btn-warning btn-sm">
-                            Edit
-                        </a>
+                            <!-- Edit Button -->
+                            <a href="<%= request.getContextPath() %>/food?action=edit&id=<%= food.getFoodId() %>"
+                               class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
 
-                        <a href="<%= request.getContextPath() %>/food?action=delete&id=<%= food.getFoodId() %>"
-                           class="btn btn-danger btn-sm"
-                           onclick="return confirm('Are you sure you want to delete this food item?');">
-                            Delete
-                        </a>
+                            <!-- Delete Button -->
+                            <form action="<%= request.getContextPath() %>/food"
+                                  method="post"
+                                  onsubmit="return confirm('Are you sure you want to delete this food item?');">
 
+                                <input type="hidden" name="action" value="delete">
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="<%= food.getFoodId() %>">
+
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </div>
                     </td>
 
+                    <% } %>
                 </tr>
+
+
 
                 <%
                     }
@@ -199,7 +242,7 @@
 
                 <tr>
 
-                    <td colspan="7"
+                    <td colspan="<%= isAdmin ? 7 : 6 %>"
                         class="text-center text-muted">
 
                         No food items found.

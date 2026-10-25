@@ -10,21 +10,49 @@
 </head>
 <body>
 <nav>
-    <a class="brand" href="${pageContext.request.contextPath}/">Food Delivery</a>
+    <a class="brand" href="${pageContext.request.contextPath}/">
+        Food Delivery
+    </a>
+
     <div>
+        <!-- Public Restaurant Link -->
+        <a href="${pageContext.request.contextPath}/restaurants">
+            Restaurants
+        </a>
+
         <c:choose>
             <c:when test="${not empty sessionScope.loggedUser}">
+
+                <!-- Admin Only Links -->
                 <c:if test="${sessionScope.loggedUser.role == 'ADMIN'}">
-                    <a href="${pageContext.request.contextPath}/admin/users">Manage Users</a>
+                    <a href="${pageContext.request.contextPath}/admin/users">
+                        Manage Users
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/admin/restaurants">
+                        Manage Restaurants
+                    </a>
                 </c:if>
-                <a href="${pageContext.request.contextPath}/profile">My Profile</a>
-                <form class="inline" method="post" action="${pageContext.request.contextPath}/logout">
+
+                <!-- Logged-in Users -->
+                <a href="${pageContext.request.contextPath}/profile">
+                    My Profile
+                </a>
+
+                <form class="inline" method="post"
+                      action="${pageContext.request.contextPath}/logout">
                     <button type="submit">Logout</button>
                 </form>
             </c:when>
+
             <c:otherwise>
-                <a href="${pageContext.request.contextPath}/login">Login</a>
-                <a href="${pageContext.request.contextPath}/register">Register</a>
+                <a href="${pageContext.request.contextPath}/login">
+                    Login
+                </a>
+
+                <a href="${pageContext.request.contextPath}/register">
+                    Register
+                </a>
             </c:otherwise>
         </c:choose>
     </div>
