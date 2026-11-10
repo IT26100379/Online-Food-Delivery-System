@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
             User user = service.login(email, req.getParameter("password"));
             req.changeSessionId();                       // prevent session fixation
             req.getSession().setAttribute("loggedUser", user);
-            resp.sendRedirect(req.getContextPath() + user.getHomePath());
+            resp.sendRedirect(req.getContextPath() + "/");
         } catch (ValidationException e) {
             req.setAttribute("errors", e.getErrors());
             req.setAttribute("email", email);

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <jsp:include page="common/header.jsp"><jsp:param name="title" value="My Profile"/></jsp:include>
-<div class="container">
+<main id="main-content" class="container">
     <jsp:include page="common/messages.jsp"/>
 
     <div class="card">
@@ -45,5 +45,6 @@
             </form>
         </div>
     </c:if>
-</div>
+</main>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body></html>

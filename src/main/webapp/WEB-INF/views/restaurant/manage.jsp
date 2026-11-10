@@ -4,7 +4,7 @@
     <jsp:param name="title" value="Manage restaurants" />
 </jsp:include>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/restaurant.css">
-<main class="restaurant-page">
+<main class="restaurant-page" id="main-content">
     <div class="restaurant-shell restaurant-content">
         <div class="restaurant-section-title">
             <div><p class="restaurant-overline">ADMIN PANEL</p><h1>Restaurant Management</h1><p>Add, search, update and delete restaurants.</p></div>
@@ -58,4 +58,5 @@
         </div>
     </div>
 </main>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body></html>

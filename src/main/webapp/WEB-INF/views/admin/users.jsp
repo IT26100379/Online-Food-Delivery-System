@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <jsp:include page="../common/header.jsp"><jsp:param name="title" value="Manage Users"/></jsp:include>
-<div class="container wide">
+<main id="main-content" class="container wide">
     <jsp:include page="../common/messages.jsp"/>
     <div class="card">
         <h2>All Users</h2>
@@ -36,5 +36,6 @@
             </tbody>
         </table>
     </div>
-</div>
+</main>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body></html>

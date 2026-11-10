@@ -1,3 +1,4 @@
+<%@ page import="java.util.List,com.fooddelivery.model.Restaurant" %>
 <%@ page import="com.fooddelivery.model.FoodItem" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -5,41 +6,10 @@
     FoodItem food = (FoodItem) request.getAttribute("food");
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Food</title>
+<jsp:include page="/WEB-INF/views/common/header.jsp"><jsp:param name="title" value="Edit food"/></jsp:include>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
-    <style>
-        body {
-            background-color: #f5f5f5;
-        }
-
-        .form-container {
-            max-width: 650px;
-            margin: 60px auto;
-            background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .page-title {
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="container">
+<div class="container" id="main-content">
 
     <div class="form-container">
 
@@ -66,7 +36,7 @@
         %>
 
         <form action="<%= request.getContextPath() %>/food?action=update"
-              method="post">
+              method="post" enctype="multipart/form-data">
 
             <!-- Food ID -->
             <div class="mb-3">
@@ -143,6 +113,20 @@
 
             </div>
 
+            <!-- Restaurant association -->
+            <div class="mb-3">
+                <label class="form-label">Restaurant</label>
+                <select name="restaurantId" class="form-select" required>
+                    <option value="">Select Restaurant</option>
+                    <%
+                        List<Restaurant> restaurants = (List<Restaurant>) request.getAttribute("restaurants");
+                        if (restaurants != null) for (Restaurant restaurant : restaurants) {
+                    %>
+                    <option value="<%= restaurant.getRestaurantId() %>" <%= restaurant.getRestaurantId().equals(food.getRestaurantId()) ? "selected" : "" %>><%= restaurant.getName() %></option>
+                    <% } %>
+                </select>
+            </div>
+
             <!-- Price -->
             <div class="mb-3">
 
@@ -158,6 +142,14 @@
                        value="<%= food.getPrice() %>"
                        required>
 
+            </div>
+
+            <!-- Uploaded photo is optional. Stored outside the deployed WAR. -->
+            <div class="mb-3">
+                <label class="form-label" for="foodPhoto">Food Photo (optional)</label>
+                <input type="file" id="foodPhoto" name="foodPhoto" class="form-control"
+                       accept="image/jpeg,image/png">
+                <small class="text-muted">Leave empty to keep the existing photo. JPG or PNG, max 5 MB. Images appear on the menu and checkout.</small>
             </div>
 
             <!-- Availability -->
@@ -193,7 +185,7 @@
                 </button>
 
                 <a href="<%= request.getContextPath() %>/food"
-                   class="btn btn-secondary">
+                   class="btn btn-light">
                     Cancel
                 </a>
 
@@ -210,7 +202,7 @@
         </div>
 
         <a href="<%= request.getContextPath() %>/food"
-           class="btn btn-secondary">
+           class="btn btn-light">
             Back to Food List
         </a>
 
@@ -222,5 +214,6 @@
 
 </div>
 
-</body>
-</html>
+
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+</body></html>

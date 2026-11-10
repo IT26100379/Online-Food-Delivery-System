@@ -7,6 +7,7 @@ public class FoodItem {
     private String category;
     private double price;
     private boolean available;
+    private String restaurantId = "";
 
     public FoodItem() {
     }
@@ -59,13 +60,19 @@ public class FoodItem {
         this.available = available;
     }
 
+    public String getRestaurantId() { return restaurantId; }
+
+    public void setRestaurantId(String restaurantId) {
+        this.restaurantId = restaurantId == null ? "" : restaurantId.trim();
+    }
+
     public String getDisplayType() {
         return "General Food";
     }
 
     @Override
     public String toString() {
-        return foodId + "," + name + "," + category + "," + price + "," + available;
+        return foodId + "," + name + "," + category + "," + price + "," + available + "," + restaurantId;
     }
 }
 

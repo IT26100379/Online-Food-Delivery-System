@@ -81,9 +81,9 @@ public class FoodService {
                     continue;
                 }
 
-                String[] data = line.split(",");
+                String[] data = line.split(",", -1);
 
-                if (data.length == 5) {
+                if (data.length == 5 || data.length == 6) {
 
                     String foodId = data[0];
                     String name = data[1];
@@ -135,6 +135,7 @@ public class FoodService {
                                 available
                         );
                     }
+                    if (data.length == 6) food.setRestaurantId(data[5]);
                     foods.add(food);
                 }
             }
@@ -144,6 +145,16 @@ public class FoodService {
         }
 
         return foods;
+    }
+
+    // Return only foods assigned to the selected restaurant.
+    public List<FoodItem> getFoodsByRestaurant(String restaurantId) {
+        List<FoodItem> result = new ArrayList<>();
+        if (restaurantId == null || restaurantId.isBlank()) return result;
+        for (FoodItem food : getAllFoods()) {
+            if (restaurantId.equals(food.getRestaurantId())) result.add(food);
+        }
+        return result;
     }
 
     // =========================

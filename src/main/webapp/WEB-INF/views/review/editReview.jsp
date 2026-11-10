@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"><jsp:param name="title" value="Edit Review"/></jsp:include>
 <jsp:include page="/WEB-INF/views/review/reviewStyles.jsp"/>
-<div class="container">
+<main id="main-content" class="container">
     <jsp:include page="/WEB-INF/views/common/messages.jsp"/>
 
     <div class="card">
@@ -34,7 +34,7 @@
             <a class="btn btn-light" href="${pageContext.request.contextPath}/reviews?action=mine">Cancel</a>
         </form>
     </div>
-</div>
+</main>
 <script>
     var box = document.getElementById('comment');
     var counter = document.getElementById('count');
@@ -42,4 +42,5 @@
     box.addEventListener('input', updateCount);
     updateCount();
 </script>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body></html>

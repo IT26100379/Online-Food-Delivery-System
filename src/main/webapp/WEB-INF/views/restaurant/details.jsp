@@ -4,7 +4,7 @@
     <jsp:param name="title" value="Restaurant details" />
 </jsp:include>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/restaurant.css">
-<main class="restaurant-page">
+<main class="restaurant-page" id="main-content">
     <div class="restaurant-shell restaurant-content">
         <a class="restaurant-back" href="${pageContext.request.contextPath}/restaurants">&larr; All restaurants</a>
         <article class="restaurant-panel restaurant-detail-panel">
@@ -22,9 +22,10 @@
                     <div><dt>Phone</dt><dd><c:out value="${restaurant.contactNumber}"/></dd></div>
                     <div><dt>Opening hours</dt><dd><c:out value="${restaurant.openingTimeText}"/> – <c:out value="${restaurant.closingTimeText}"/></dd></div>
                 </dl>
-                <p class="restaurant-tip">Menus and food orders can be connected in the Food Management integration stage.</p>
+                <a class="restaurant-back" href="${pageContext.request.contextPath}/food?restaurantId=${restaurant.restaurantId}">View Foods at This Restaurant &rarr;</a>
             </div>
         </article>
     </div>
 </main>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body></html>

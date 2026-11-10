@@ -2,59 +2,47 @@
 <%@ page import="com.fooddelivery.model.FoodItem" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Food Management</title>
+<%@ page import="com.fooddelivery.model.User" %>
+<%@ page import="com.fooddelivery.model.Role" %>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<%
+    Object currentUser = session.getAttribute("loggedUser");
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    boolean isAdmin = currentUser instanceof User
+            && ((User) currentUser).getRole() == Role.ADMIN;
+%>
 
-    <style>
-        body {
-            background-color: #f5f5f5;
-        }
+<jsp:include page="/WEB-INF/views/common/header.jsp"><jsp:param name="title" value="Food menu"/></jsp:include>
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/food-photos.css">
 
-        .main-container {
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
 
-        .table-container {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .page-title {
-            font-weight: bold;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="container main-container">
+<div class="container main-container wide" id="main-content">
 
     <div class="table-container">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
 
             <h2 class="page-title">
-                Food Management
+                Food menu
+                <% if (request.getAttribute("selectedRestaurant") != null) { %>
+                    — <%= ((com.fooddelivery.model.Restaurant) request.getAttribute("selectedRestaurant")).getName() %>
+                <% } %>
             </h2>
 
-            <a href="<%= request.getContextPath() %>/food?action=add"
-               class="btn btn-primary">
-                + Add Food
-            </a>
+            <% if (isAdmin) { %>
+
+                <a href="<%= request.getContextPath() %>/food?action=add"
+                   class="btn btn-primary">
+                    + Add Food
+                </a>
+
+            <% } %>
 
         </div>
 
+        <% if (request.getAttribute("selectedRestaurantId") != null) { %>
+            <a class="btn btn-outline-secondary mb-3" href="<%= request.getContextPath() %>/restaurants">← Back to Restaurants</a>
+        <% } %>
         <!-- Search Form -->
         <form action="<%= request.getContextPath() %>/food"
               method="get"
@@ -79,7 +67,7 @@
             <div class="col-md-2">
 
                 <button type="submit"
-                        class="btn btn-success w-100">
+                        class="btn btn-primary w-100">
                     Search
                 </button>
 
@@ -102,125 +90,51 @@
                     (List<FoodItem>) request.getAttribute("foods");
         %>
 
-        <div class="table-responsive">
-
-            <table class="table table-bordered table-hover align-middle">
-
-                <thead class="table-dark">
-
-                <tr>
-                    <th>Food ID</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Type</th>
-                    <th>Price (Rs.)</th>
-                    <th>Availability</th>
-                    <th>Actions</th>
-                </tr>
-
-                </thead>
-
-                <tbody>
-
-                <%
-                    if (foods != null && !foods.isEmpty()) {
-
-                        for (FoodItem food : foods) {
-                %>
-
-                <tr>
-
-                    <td>
-                        <%= food.getFoodId() %>
-                    </td>
-
-                    <td>
-                        <%= food.getName() %>
-                    </td>
-
-                    <td>
-                        <%= food.getCategory() %>
-                    </td>
-
-                    <td>
-                        <%= food.getDisplayType() %>
-                    </td>
-
-                    <td>
-                        <%= String.format("%.2f", food.getPrice()) %>
-                    </td>
-
-                    <td>
-
-                        <%
-                            if (food.isAvailable()) {
-                        %>
-
-                        <span class="badge bg-success">
-                            Available
-                        </span>
-
-                        <%
-                        } else {
-                        %>
-
-                        <span class="badge bg-danger">
-                            Not Available
-                        </span>
-
-                        <%
-                            }
-                        %>
-
-                    </td>
-
-                    <td>
-
-                        <a href="<%= request.getContextPath() %>/food?action=edit&id=<%= food.getFoodId() %>"
-                           class="btn btn-warning btn-sm">
-                            Edit
-                        </a>
-
-                        <a href="<%= request.getContextPath() %>/food?action=delete&id=<%= food.getFoodId() %>"
-                           class="btn btn-danger btn-sm"
-                           onclick="return confirm('Are you sure you want to delete this food item?');">
-                            Delete
-                        </a>
-
-                    </td>
-
-                </tr>
-
-                <%
-                    }
-
-                } else {
-                %>
-
-                <tr>
-
-                    <td colspan="7"
-                        class="text-center text-muted">
-
-                        No food items found.
-
-                    </td>
-
-                </tr>
-
-                <%
-                    }
-                %>
-
-                </tbody>
-
-            </table>
-
+        <div class="yc-food-grid">
+        <%
+            if (foods != null && !foods.isEmpty()) {
+                for (FoodItem food : foods) {
+        %>
+            <article class="yc-food-card">
+                <div class="yc-food-photo-wrap">
+                    <jsp:include page="/WEB-INF/views/common/food-photo.jsp">
+                        <jsp:param name="foodId" value="<%= food.getFoodId() %>" />
+                        <jsp:param name="foodName" value="<%= food.getName() %>" />
+                        <jsp:param name="foodCategory" value="<%= food.getCategory() %>" />
+                    </jsp:include>
+                </div>
+                <div class="yc-food-card-body">
+                    <span class="yc-food-category"><%= food.getCategory().replace("&", "&amp;").replace("<", "&lt;") %></span>
+                    <h3><%= food.getName().replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;") %></h3>
+                    <p class="yc-food-meta"><%= food.getDisplayType() %> · ID: <%= food.getFoodId() %></p>
+                    <div class="yc-food-card-bottom">
+                        <strong class="yc-food-price">Rs. <%= String.format("%.2f", food.getPrice()) %></strong>
+                        <% if (food.isAvailable()) { %><span class="badge bg-success">Available</span>
+                        <% } else { %><span class="badge bg-danger">Unavailable</span><% } %>
+                    </div>
+                    <% if (isAdmin) { %>
+                    <div class="yc-food-card-actions">
+                        <a href="<%= request.getContextPath() %>/food?action=edit&amp;id=<%= java.net.URLEncoder.encode(food.getFoodId(), java.nio.charset.StandardCharsets.UTF_8) %>" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="<%= request.getContextPath() %>/food" method="post" onsubmit="return confirm('Delete this food item?');">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="id" value="<%= food.getFoodId() %>">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
+                    <% } else if (food.isAvailable()) { %>
+                        <a class="btn btn-primary yc-order-now" href="<%= request.getContextPath() %>/orders?action=place&amp;foodId=<%= java.net.URLEncoder.encode(food.getFoodId(), java.nio.charset.StandardCharsets.UTF_8) %>">Order now →</a>
+                    <% } else { %><button class="btn yc-order-now" disabled>Currently unavailable</button><% } %>
+                </div>
+            </article>
+        <% } } else { %>
+            <div class="yc-food-empty">No food items found.</div>
+        <% } %>
         </div>
 
     </div>
 
 </div>
 
-</body>
-</html>
+
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+</body></html>
